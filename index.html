@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Overviews — Optima Academy Online</title>
+<style>
+  :root {
+    --navy: #0E1C42;
+    --cyan: #55C8E8;
+    --gold: #C7922C;
+    --blue: #2196D0;
+    --ink: #1a2340;
+    --line: #D0D9E8;
+    --paper: #FFFFFF;
+    --wash: #F4F9FC;
+    --washblue: #E8F6FB;
+    --good: #2A9D5C;
+    --warnbg: #FDF3E3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Segoe, Tahoma, Arial, sans-serif;
+    color: var(--ink);
+    background: linear-gradient(135deg, var(--washblue) 0%, var(--wash) 100%);
+    line-height: 1.55;
+  }
+  .shell { max-width: 860px; margin: 0 auto; padding: 14px 14px 110px; }
+
+  /* ---------- header ---------- */
+  .brandbar { padding: 10px 2px 4px; }
+  .brandbar .wordmark { font-size: 12px; letter-spacing: 2.5px; color: var(--blue); font-weight: 600; text-transform: uppercase; }
+  .brandbar h1 { font-size: 24px; color: var(--navy); margin: 0; font-weight: 600; }
+  .brandbar .lead { font-size: 14px; color: #5a6a85; margin: 4px 0 0; }
+
+  /* ---------- grade chips ---------- */
+  .grades { display: flex; flex-wrap: wrap; gap: 7px; margin: 16px 0 14px; }
+  .grades button {
+    font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+    background: var(--paper); color: var(--navy);
+    border: 1.5px solid var(--line); border-radius: 999px;
+    padding: 7px 13px; transition: all 0.15s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .grades button:hover { border-color: var(--cyan); background: var(--wash); }
+  .grades button.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .grades button .count {
+    font-size: 11px; font-weight: 600; line-height: 1;
+    background: var(--washblue); color: var(--blue);
+    border-radius: 999px; padding: 3px 7px;
+  }
+  .grades button.active .count { background: var(--cyan); color: var(--navy); }
+  .grades button.empty { opacity: 0.5; }
+  .grades button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; }
+
+  /* ---------- course list ---------- */
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 5px solid var(--blue);
+    border-radius: 10px;
+    padding: 18px 20px;
+    animation: fadein 0.25s ease;
+  }
+  @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .listhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+  .listhead h2 { font-size: 18px; color: var(--navy); margin: 0; font-weight: 600; flex: 1; }
+  .listhead .mini {
+    font-family: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    background: none; border: none; color: var(--blue); padding: 2px 4px; border-radius: 6px;
+  }
+  .listhead .mini:hover { text-decoration: underline; }
+  .listhead .mini:focus-visible { outline: 2px solid var(--cyan); }
+
+  .row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 6px; border-top: 1px solid var(--washblue);
+  }
+  .row:first-of-type { border-top: none; }
+  .row label { flex: 1; display: flex; align-items: center; gap: 12px; cursor: pointer; font-size: 15px; min-width: 0; }
+  .row label .name { overflow-wrap: anywhere; }
+  .row input[type="checkbox"] {
+    width: 19px; height: 19px; flex: none; cursor: pointer; accent-color: var(--navy);
+  }
+  .row .band { font-size: 11.5px; color: var(--blue); background: var(--washblue); border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+  .viewbtn {
+    font-family: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
+    color: var(--navy); background: var(--paper);
+    border: 1.5px solid var(--line); border-radius: 8px; padding: 7px 14px;
+    text-decoration: none; white-space: nowrap; transition: all 0.15s;
+  }
+  .viewbtn:hover { border-color: var(--cyan); background: var(--wash); }
+  .viewbtn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; }
+
+  .emptystate { text-align: center; padding: 34px 10px; color: #5a6a85; font-size: 15px; }
+  .emptystate .big { font-size: 30px; display: block; margin-bottom: 8px; }
+
+  /* ---------- action bar ---------- */
+  .actionbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+    background: var(--paper); border-top: 1.5px solid var(--line);
+    box-shadow: 0 -4px 16px rgba(14,28,66,0.08);
+  }
+  .actionbar .inner {
+    max-width: 860px; margin: 0 auto; padding: 12px 14px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  }
+  .selcount { font-size: 13.5px; color: #5a6a85; flex: 1; min-width: 120px; }
+  .selcount b { color: var(--navy); }
+  .btn {
+    font-family: inherit; font-size: 14.5px; font-weight: 600; cursor: pointer;
+    border-radius: 10px; padding: 10px 18px; transition: all 0.15s; border: none;
+  }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-primary { background: var(--navy); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: #1a2d5e; }
+  .btn-ghost { background: transparent; color: var(--navy); border: 1.5px solid var(--line); }
+  .btn-ghost:hover:not(:disabled) { border-color: var(--cyan); }
+  .btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; }
+
+  .notice {
+    max-width: 860px; margin: 0 auto; padding: 0 14px 10px;
+    font-size: 13px; color: #7a5a18;
+  }
+  .notice span { display: inline-block; background: var(--warnbg); border: 1px solid #ecd9ae; border-radius: 8px; padding: 6px 12px; }
+
+  .foot { margin-top: 16px; font-size: 12px; color: #8a97ad; text-align: center; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="brandbar">
+    <div class="wordmark">Optima Academy Online</div>
+    <h1>Course Overviews</h1>
+    <p class="lead">Pick a grade level, then view or download one-page overviews of our courses.</p>
+  </div>
+
+  <div class="grades" id="grades" role="tablist" aria-label="Grade levels"></div>
+
+  <div class="card">
+    <div class="listhead">
+      <h2 id="listTitle">Courses</h2>
+      <button class="mini" id="selectAll" type="button">Select all</button>
+      <button class="mini" id="clearAll" type="button">Clear</button>
+    </div>
+    <div id="list"></div>
+  </div>
+
+  <p class="foot" id="foot"></p>
+</div>
+
+<div class="actionbar">
+  <div class="inner">
+    <div class="selcount" id="selcount">No courses selected</div>
+    <button class="btn btn-ghost" id="openSel" type="button" disabled>Open selected in tabs</button>
+    <button class="btn btn-primary" id="dlSel" type="button" disabled>Download selected</button>
+  </div>
+  <div class="notice" id="popupNotice" hidden>
+    <span>Your browser blocked some tabs. Allow pop-ups for this site, or use the <b>View</b> button next to each course.</span>
+  </div>
+</div>
+
+<script src="manifest.js"></script>
+<script>
+(function () {
+  var GRADES = ["K","1","2","3","4","5","6","7","8","9","10","11","12"];
+  var data = (window.COURSE_MANIFEST && window.COURSE_MANIFEST.courses) || [];
+  var byGrade = {};
+  GRADES.forEach(function (g) { byGrade[g] = []; });
+  data.forEach(function (c) {
+    (c.grades || []).forEach(function (g) {
+      g = String(g).toUpperCase();
+      if (byGrade[g]) byGrade[g].push(c);
+    });
+  });
+  GRADES.forEach(function (g) {
+    byGrade[g].sort(function (a, b) { return a.title.localeCompare(b.title); });
+  });
+
+  var selected = {};            // file -> course (persists across grade switches)
+  var current = GRADES.filter(function (g) { return byGrade[g].length; })[0] || "K";
+
+  var elGrades = document.getElementById("grades");
+  var elList = document.getElementById("list");
+  var elTitle = document.getElementById("listTitle");
+  var elSelCount = document.getElementById("selcount");
+  var btnOpen = document.getElementById("openSel");
+  var btnDl = document.getElementById("dlSel");
+  var elNotice = document.getElementById("popupNotice");
+
+  function gradeLabel(g) { return g === "K" ? "K" : g; }
+  function gradeName(g) { return g === "K" ? "Kindergarten" : "Grade " + g; }
+  function bandLabel(c) {
+    if (!c.grades || c.grades.length < 2) return null;
+    var gs = c.grades.map(String);
+    return "Grades " + gs[0] + "–" + gs[gs.length - 1];
+  }
+  function safeName(title) {
+    return "OAO-" + title.replace(/[^\w]+/g, "-").replace(/^-+|-+$/g, "") + "-Overview.pdf";
+  }
+
+  function renderGrades() {
+    elGrades.innerHTML = "";
+    GRADES.forEach(function (g) {
+      var n = byGrade[g].length;
+      var b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-selected", g === current ? "true" : "false");
+      b.className = (g === current ? "active" : "") + (n === 0 ? " empty" : "");
+      b.innerHTML = gradeLabel(g) + (n ? ' <span class="count">' + n + "</span>" : "");
+      b.addEventListener("click", function () { current = g; renderGrades(); renderList(); });
+      elGrades.appendChild(b);
+    });
+  }
+
+  function renderList() {
+    var courses = byGrade[current];
+    elTitle.textContent = gradeName(current) + (courses.length ? " · " + courses.length + (courses.length === 1 ? " course" : " courses") : "");
+    elList.innerHTML = "";
+    if (!courses.length) {
+      elList.innerHTML = '<div class="emptystate"><span class="big">📘</span>Overviews for ' + gradeName(current) + " are coming soon.</div>";
+      return;
+    }
+    courses.forEach(function (c) {
+      var row = document.createElement("div");
+      row.className = "row";
+      var label = document.createElement("label");
+      var cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = !!selected[c.file];
+      cb.addEventListener("change", function () {
+        if (cb.checked) selected[c.file] = c; else delete selected[c.file];
+        updateBar();
+      });
+      var name = document.createElement("span");
+      name.className = "name";
+      name.textContent = c.title;
+      label.appendChild(cb);
+      label.appendChild(name);
+      var band = bandLabel(c);
+      if (band) {
+        var tag = document.createElement("span");
+        tag.className = "band";
+        tag.textContent = band;
+        label.appendChild(tag);
+      }
+      var view = document.createElement("a");
+      view.className = "viewbtn";
+      view.href = c.file;
+      view.target = "_blank";
+      view.rel = "noopener";
+      view.textContent = "View ↗";
+      row.appendChild(label);
+      row.appendChild(view);
+      elList.appendChild(row);
+    });
+  }
+
+  function selCount() { return Object.keys(selected).length; }
+
+  function updateBar() {
+    var n = selCount();
+    elSelCount.innerHTML = n
+      ? "<b>" + n + "</b> course" + (n === 1 ? "" : "s") + " selected"
+      : "No courses selected";
+    btnOpen.disabled = !n;
+    btnDl.disabled = !n;
+    btnDl.textContent = n ? "Download selected (" + n + ")" : "Download selected";
+    btnOpen.textContent = n === 1 ? "Open in new tab" : "Open selected in tabs";
+  }
+
+  document.getElementById("selectAll").addEventListener("click", function () {
+    byGrade[current].forEach(function (c) { selected[c.file] = c; });
+    renderList(); updateBar();
+  });
+  document.getElementById("clearAll").addEventListener("click", function () {
+    selected = {};
+    renderList(); updateBar();
+  });
+
+  btnDl.addEventListener("click", function () {
+    var items = Object.keys(selected).map(function (k) { return selected[k]; });
+    items.forEach(function (c, i) {
+      setTimeout(function () {
+        var a = document.createElement("a");
+        a.href = c.file;
+        a.download = safeName(c.title);
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }, i * 400);
+    });
+  });
+
+  btnOpen.addEventListener("click", function () {
+    var items = Object.keys(selected).map(function (k) { return selected[k]; });
+    var blockedAny = false;
+    items.forEach(function (c) {
+      var w = window.open(c.file, "_blank", "noopener");
+      if (!w) blockedAny = true;
+    });
+    elNotice.hidden = !blockedAny;
+    if (blockedAny) setTimeout(function () { elNotice.hidden = true; }, 9000);
+  });
+
+  var total = data.length;
+  var updated = (window.COURSE_MANIFEST && window.COURSE_MANIFEST.updated) || "";
+  document.getElementById("foot").textContent =
+    total + " course overview" + (total === 1 ? "" : "s") + (updated ? " · updated " + updated : "");
+
+  renderGrades();
+  renderList();
+  updateBar();
+})();
+</script>
+</body>
+</html>
