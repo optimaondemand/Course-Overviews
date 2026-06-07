@@ -7,6 +7,7 @@
 <style>
   :root {
     --navy: #0E1C42;
+    --navy2: #1B3263;
     --cyan: #55C8E8;
     --gold: #C7922C;
     --blue: #2196D0;
@@ -15,56 +16,67 @@
     --paper: #FFFFFF;
     --wash: #F4F9FC;
     --washblue: #E8F6FB;
-    --good: #2A9D5C;
-    --warnbg: #FDF3E3;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
     font-family: "Segoe UI", Segoe, Tahoma, Arial, sans-serif;
     color: var(--ink);
-    background: linear-gradient(135deg, var(--washblue) 0%, var(--wash) 100%);
+    background: linear-gradient(160deg, var(--washblue) 0%, var(--wash) 60%, #fff 100%);
     line-height: 1.55;
   }
-  .shell { max-width: 860px; margin: 0 auto; padding: 14px 14px 110px; }
 
-  /* ---------- header ---------- */
-  .brandbar { padding: 10px 2px 4px; }
-  .brandbar .wordmark { font-size: 12px; letter-spacing: 2.5px; color: var(--blue); font-weight: 600; text-transform: uppercase; }
-  .brandbar h1 { font-size: 24px; color: var(--navy); margin: 0; font-weight: 600; }
-  .brandbar .lead { font-size: 14px; color: #5a6a85; margin: 4px 0 0; }
+  /* ---------- header band ---------- */
+  .band {
+    background: linear-gradient(120deg, var(--navy) 0%, var(--navy2) 100%);
+    border-bottom: 3px solid var(--gold);
+    padding: 26px 0 56px;
+  }
+  .band .inner { max-width: 860px; margin: 0 auto; padding: 0 18px; }
+  .kicker { font-size: 11px; letter-spacing: 3px; color: var(--cyan); font-weight: 600; text-transform: uppercase; }
+  .band h1 { font-size: 27px; color: #fff; margin: 4px 0 2px; font-weight: 600; }
+  .band .lead { font-size: 14px; color: #b9cde0; margin: 0; }
+
+  .shell { max-width: 860px; margin: -34px auto 0; padding: 0 18px 96px; }
 
   /* ---------- grade chips ---------- */
-  .grades { display: flex; flex-wrap: wrap; gap: 7px; margin: 16px 0 14px; }
+  .gradecard {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: 0 6px 22px rgba(14,28,66,0.10);
+    padding: 14px 16px;
+  }
+  .gradecard .glabel { font-size: 11px; letter-spacing: 2px; color: var(--blue); font-weight: 600; text-transform: uppercase; margin: 0 0 9px 2px; }
+  .grades { display: flex; flex-wrap: wrap; gap: 7px; }
   .grades button {
     font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
-    background: var(--paper); color: var(--navy);
-    border: 1.5px solid var(--line); border-radius: 999px;
-    padding: 7px 13px; transition: all 0.15s;
-    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--wash); color: var(--navy);
+    border: 1.5px solid transparent; border-radius: 999px;
+    min-width: 42px; padding: 7px 13px; transition: all 0.15s;
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   }
-  .grades button:hover { border-color: var(--cyan); background: var(--wash); }
-  .grades button.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .grades button:hover { border-color: var(--cyan); background: var(--washblue); }
+  .grades button.active { background: var(--navy); color: #fff; box-shadow: 0 3px 10px rgba(14,28,66,0.25); }
   .grades button .count {
-    font-size: 11px; font-weight: 600; line-height: 1;
-    background: var(--washblue); color: var(--blue);
-    border-radius: 999px; padding: 3px 7px;
+    font-size: 10.5px; font-weight: 600; line-height: 1;
+    background: var(--cyan); color: var(--navy);
+    border-radius: 999px; padding: 3px 6px;
   }
-  .grades button.active .count { background: var(--cyan); color: var(--navy); }
-  .grades button.empty { opacity: 0.5; }
+  .grades button.empty { opacity: 0.4; }
+  .grades button.empty .count { display: none; }
   .grades button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; }
 
   /* ---------- course list ---------- */
   .card {
     background: var(--paper);
     border: 1px solid var(--line);
-    border-left: 5px solid var(--blue);
-    border-radius: 10px;
-    padding: 18px 20px;
+    border-radius: 14px;
+    box-shadow: 0 6px 22px rgba(14,28,66,0.07);
+    padding: 18px 20px 10px;
+    margin-top: 14px;
     animation: fadein 0.25s ease;
   }
   @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  .listhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+  .listhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 6px; }
   .listhead h2 { font-size: 18px; color: var(--navy); margin: 0; font-weight: 600; flex: 1; }
   .listhead .mini {
     font-family: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
@@ -74,75 +86,81 @@
   .listhead .mini:focus-visible { outline: 2px solid var(--cyan); }
 
   .row {
-    display: flex; align-items: center; gap: 12px;
-    padding: 10px 6px; border-top: 1px solid var(--washblue);
+    display: flex; align-items: center; gap: 6px;
+    margin: 0 -10px; padding: 9px 10px;
+    border-radius: 10px; transition: background 0.12s;
   }
-  .row:first-of-type { border-top: none; }
+  .row:hover { background: var(--wash); }
+  .row + .row { border-top: 1px solid #eef4f9; }
   .row label { flex: 1; display: flex; align-items: center; gap: 12px; cursor: pointer; font-size: 15px; min-width: 0; }
   .row label .name { overflow-wrap: anywhere; }
   .row input[type="checkbox"] {
-    width: 19px; height: 19px; flex: none; cursor: pointer; accent-color: var(--navy);
+    width: 18px; height: 18px; flex: none; cursor: pointer; accent-color: var(--navy);
   }
-  .row .band { font-size: 11.5px; color: var(--blue); background: var(--washblue); border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+  .docicon { flex: none; width: 30px; height: 30px; border-radius: 8px; background: var(--washblue); display: flex; align-items: center; justify-content: center; }
+  .docicon svg { width: 16px; height: 16px; }
+  .row .gband { font-size: 11px; color: var(--blue); background: var(--washblue); border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
   .viewbtn {
-    font-family: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
-    color: var(--navy); background: var(--paper);
-    border: 1.5px solid var(--line); border-radius: 8px; padding: 7px 14px;
+    font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+    color: var(--blue); background: transparent;
+    border: 1.5px solid var(--line); border-radius: 999px; padding: 6px 14px;
     text-decoration: none; white-space: nowrap; transition: all 0.15s;
   }
-  .viewbtn:hover { border-color: var(--cyan); background: var(--wash); }
+  .viewbtn:hover { border-color: var(--blue); background: var(--washblue); color: var(--navy); }
   .viewbtn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; }
 
-  .emptystate { text-align: center; padding: 34px 10px; color: #5a6a85; font-size: 15px; }
+  .emptystate { text-align: center; padding: 36px 10px 42px; color: #5a6a85; font-size: 15px; }
   .emptystate .big { font-size: 30px; display: block; margin-bottom: 8px; }
 
-  /* ---------- action bar ---------- */
-  .actionbar {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
-    background: var(--paper); border-top: 1.5px solid var(--line);
-    box-shadow: 0 -4px 16px rgba(14,28,66,0.08);
-  }
-  .actionbar .inner {
-    max-width: 860px; margin: 0 auto; padding: 12px 14px;
-    display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
-  }
-  .selcount { font-size: 13.5px; color: #5a6a85; flex: 1; min-width: 120px; }
-  .selcount b { color: var(--navy); }
-  .btn {
-    font-family: inherit; font-size: 14.5px; font-weight: 600; cursor: pointer;
-    border-radius: 10px; padding: 10px 18px; transition: all 0.15s; border: none;
-  }
-  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-  .btn-primary { background: var(--navy); color: #fff; }
-  .btn-primary:hover:not(:disabled) { background: #1a2d5e; }
-  .btn-ghost { background: transparent; color: var(--navy); border: 1.5px solid var(--line); }
-  .btn-ghost:hover:not(:disabled) { border-color: var(--cyan); }
-  .btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; }
-
-  .notice {
-    max-width: 860px; margin: 0 auto; padding: 0 14px 10px;
-    font-size: 13px; color: #7a5a18;
-  }
-  .notice span { display: inline-block; background: var(--warnbg); border: 1px solid #ecd9ae; border-radius: 8px; padding: 6px 12px; }
-
   .foot { margin-top: 16px; font-size: 12px; color: #8a97ad; text-align: center; }
+
+  /* ---------- floating selection bar ---------- */
+  .selbar {
+    position: fixed; left: 50%; bottom: 18px; z-index: 10;
+    transform: translateX(-50%) translateY(90px);
+    transition: transform 0.25s ease;
+    background: var(--navy); color: #fff;
+    border-radius: 999px; box-shadow: 0 10px 30px rgba(14,28,66,0.35);
+    display: flex; align-items: center; gap: 4px;
+    padding: 8px 10px 8px 20px;
+    max-width: calc(100vw - 24px);
+  }
+  .selbar.show { transform: translateX(-50%) translateY(0); }
+  .selbar .n { font-size: 14px; white-space: nowrap; }
+  .selbar .n b { color: var(--cyan); }
+  .selbar .clear {
+    font-family: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+    background: none; border: none; color: #b9cde0; padding: 6px 10px; border-radius: 999px;
+  }
+  .selbar .clear:hover { color: #fff; }
+  .selbar .dl {
+    font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+    background: var(--gold); color: #fff; border: none; border-radius: 999px;
+    padding: 9px 20px; transition: background 0.15s; white-space: nowrap;
+  }
+  .selbar .dl:hover { background: #d6a23e; }
+  .selbar button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; }
 </style>
 </head>
 <body>
-<div class="shell">
-  <div class="brandbar">
-    <div class="wordmark">Optima Academy Online</div>
+<div class="band">
+  <div class="inner">
+    <div class="kicker">Optima Academy Online</div>
     <h1>Course Overviews</h1>
-    <p class="lead">Pick a grade level, then view or download one-page overviews of our courses.</p>
+    <p class="lead">One-page guides to our courses. Pick a grade, open any overview, or check several to download them together.</p>
   </div>
+</div>
 
-  <div class="grades" id="grades" role="tablist" aria-label="Grade levels"></div>
+<div class="shell">
+  <div class="gradecard">
+    <p class="glabel">Grade level</p>
+    <div class="grades" id="grades" role="tablist" aria-label="Grade levels"></div>
+  </div>
 
   <div class="card">
     <div class="listhead">
       <h2 id="listTitle">Courses</h2>
       <button class="mini" id="selectAll" type="button">Select all</button>
-      <button class="mini" id="clearAll" type="button">Clear</button>
     </div>
     <div id="list"></div>
   </div>
@@ -150,21 +168,17 @@
   <p class="foot" id="foot"></p>
 </div>
 
-<div class="actionbar">
-  <div class="inner">
-    <div class="selcount" id="selcount">No courses selected</div>
-    <button class="btn btn-ghost" id="openSel" type="button" disabled>Open selected in tabs</button>
-    <button class="btn btn-primary" id="dlSel" type="button" disabled>Download selected</button>
-  </div>
-  <div class="notice" id="popupNotice" hidden>
-    <span>Your browser blocked some tabs. Allow pop-ups for this site, or use the <b>View</b> button next to each course.</span>
-  </div>
+<div class="selbar" id="selbar" aria-live="polite">
+  <span class="n" id="selcount"></span>
+  <button class="clear" id="clearAll" type="button">Clear</button>
+  <button class="dl" id="dlSel" type="button">Download</button>
 </div>
 
 <script src="manifest.js"></script>
 <script>
 (function () {
   var GRADES = ["K","1","2","3","4","5","6","7","8","9","10","11","12"];
+  var DOC_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="#2196D0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6"/><path d="M9 11h2"/></svg>';
   var data = (window.COURSE_MANIFEST && window.COURSE_MANIFEST.courses) || [];
   var byGrade = {};
   GRADES.forEach(function (g) { byGrade[g] = []; });
@@ -184,12 +198,10 @@
   var elGrades = document.getElementById("grades");
   var elList = document.getElementById("list");
   var elTitle = document.getElementById("listTitle");
+  var elSelBar = document.getElementById("selbar");
   var elSelCount = document.getElementById("selcount");
-  var btnOpen = document.getElementById("openSel");
   var btnDl = document.getElementById("dlSel");
-  var elNotice = document.getElementById("popupNotice");
 
-  function gradeLabel(g) { return g === "K" ? "K" : g; }
   function gradeName(g) { return g === "K" ? "Kindergarten" : "Grade " + g; }
   function bandLabel(c) {
     if (!c.grades || c.grades.length < 2) return null;
@@ -209,7 +221,7 @@
       b.setAttribute("role", "tab");
       b.setAttribute("aria-selected", g === current ? "true" : "false");
       b.className = (g === current ? "active" : "") + (n === 0 ? " empty" : "");
-      b.innerHTML = gradeLabel(g) + (n ? ' <span class="count">' + n + "</span>" : "");
+      b.innerHTML = g + (n ? ' <span class="count">' + n + "</span>" : "");
       b.addEventListener("click", function () { current = g; renderGrades(); renderList(); });
       elGrades.appendChild(b);
     });
@@ -218,6 +230,7 @@
   function renderList() {
     var courses = byGrade[current];
     elTitle.textContent = gradeName(current) + (courses.length ? " · " + courses.length + (courses.length === 1 ? " course" : " courses") : "");
+    document.getElementById("selectAll").style.display = courses.length > 1 ? "" : "none";
     elList.innerHTML = "";
     if (!courses.length) {
       elList.innerHTML = '<div class="emptystate"><span class="big">📘</span>Overviews for ' + gradeName(current) + " are coming soon.</div>";
@@ -234,15 +247,19 @@
         if (cb.checked) selected[c.file] = c; else delete selected[c.file];
         updateBar();
       });
+      var icon = document.createElement("span");
+      icon.className = "docicon";
+      icon.innerHTML = DOC_SVG;
       var name = document.createElement("span");
       name.className = "name";
       name.textContent = c.title;
       label.appendChild(cb);
+      label.appendChild(icon);
       label.appendChild(name);
       var band = bandLabel(c);
       if (band) {
         var tag = document.createElement("span");
-        tag.className = "band";
+        tag.className = "gband";
         tag.textContent = band;
         label.appendChild(tag);
       }
@@ -251,24 +268,20 @@
       view.href = c.file;
       view.target = "_blank";
       view.rel = "noopener";
-      view.textContent = "View ↗";
+      view.textContent = "Open ↗";
       row.appendChild(label);
       row.appendChild(view);
       elList.appendChild(row);
     });
   }
 
-  function selCount() { return Object.keys(selected).length; }
-
   function updateBar() {
-    var n = selCount();
-    elSelCount.innerHTML = n
-      ? "<b>" + n + "</b> course" + (n === 1 ? "" : "s") + " selected"
-      : "No courses selected";
-    btnOpen.disabled = !n;
-    btnDl.disabled = !n;
-    btnDl.textContent = n ? "Download selected (" + n + ")" : "Download selected";
-    btnOpen.textContent = n === 1 ? "Open in new tab" : "Open selected in tabs";
+    var n = Object.keys(selected).length;
+    if (n) {
+      elSelCount.innerHTML = "<b>" + n + "</b> selected";
+      btnDl.textContent = n === 1 ? "Download PDF" : "Download " + n + " PDFs";
+    }
+    elSelBar.classList.toggle("show", n > 0);
   }
 
   document.getElementById("selectAll").addEventListener("click", function () {
@@ -292,17 +305,6 @@
         a.remove();
       }, i * 400);
     });
-  });
-
-  btnOpen.addEventListener("click", function () {
-    var items = Object.keys(selected).map(function (k) { return selected[k]; });
-    var blockedAny = false;
-    items.forEach(function (c) {
-      var w = window.open(c.file, "_blank", "noopener");
-      if (!w) blockedAny = true;
-    });
-    elNotice.hidden = !blockedAny;
-    if (blockedAny) setTimeout(function () { elNotice.hidden = true; }, 9000);
   });
 
   var total = data.length;

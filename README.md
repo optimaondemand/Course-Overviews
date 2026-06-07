@@ -31,7 +31,6 @@ The same URL works as a standalone link for families (email, newsletter, website
 
 ## Notes
 
-- "Download selected" fires one download per PDF; the browser asks once to allow multiple downloads.
-- "Open selected in tabs" can be limited by pop-up blockers when more than one course is selected; the widget shows a hint when that happens, and the per-course **View** button always works.
+- Each course row has an **Open ↗** button (new tab). Checking courses reveals a floating bar with **Download** — one download per PDF; the browser asks once to allow multiple downloads. There is deliberately no bulk "open in tabs" action: pop-up blockers only allow one new tab per click, so a bulk-open button can never work reliably.
 
 The current PDFs are **sample placeholders** generated from `_src/placeholder-template.html` — replace them as the family-overview project produces the real ones.
