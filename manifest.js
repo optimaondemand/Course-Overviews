@@ -8,7 +8,10 @@
         { title: "Course Name", grades: ["4"], file: "pdfs/grade-4-science.pdf" }
    Grade values: "K", "1" ... "12".
    A course may list several grades (e.g. an elective for 6–8:
-   grades: ["6","7","8"]) and it will appear under each one.
+   grades: ["6","7","8"]) and it will appear under each one,
+   tagged "Grades 6–8" on its row. The tag is auto-generated as
+   first–last; add band: "..." to override it (e.g. a course for
+   every grade: grades: ["K","1",...,"12"], band: "All grades").
    Then commit + push. The widget updates itself from this list.
    ============================================================ */
 window.COURSE_MANIFEST = {

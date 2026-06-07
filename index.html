@@ -204,6 +204,7 @@
 
   function gradeName(g) { return g === "K" ? "Kindergarten" : "Grade " + g; }
   function bandLabel(c) {
+    if (c.band) return c.band;   // manual override, e.g. "All grades" or "Grades 6 & 8"
     if (!c.grades || c.grades.length < 2) return null;
     var gs = c.grades.map(String);
     return "Grades " + gs[0] + "–" + gs[gs.length - 1];
