@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Course Overviews — Optima Academy Online</title>
+<link rel="icon" type="image/png" href="favicon-owl.png">
 <style>
   :root {
     --navy: #0E1C42;
@@ -33,9 +34,17 @@
     padding: 26px 0 56px;
   }
   .band .inner { max-width: 860px; margin: 0 auto; padding: 0 18px; }
-  .kicker { font-size: 11px; letter-spacing: 3px; color: var(--cyan); font-weight: 600; text-transform: uppercase; }
-  .band h1 { font-size: 27px; color: #fff; margin: 4px 0 2px; font-weight: 600; }
-  .band .lead { font-size: 14px; color: #b9cde0; margin: 0; }
+  .home {
+    display: inline-block; background: none; border: none; padding: 0; margin: 0;
+    text-align: left; cursor: pointer; font-family: inherit; color: inherit;
+    border-radius: 10px;
+  }
+  .home:hover .logo { opacity: 0.85; }
+  .home:hover h1 { color: var(--cyan); }
+  .home:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
+  .logo { height: 34px; width: auto; display: block; margin-bottom: 10px; transition: opacity 0.15s; }
+  .band h1 { font-size: 27px; color: #fff; margin: 0 0 2px; font-weight: 600; transition: color 0.15s; }
+  .band .lead { font-size: 14px; color: #b9cde0; margin: 6px 0 0; max-width: 640px; }
 
   .shell { max-width: 860px; margin: -34px auto 0; padding: 0 18px 96px; }
 
@@ -145,8 +154,10 @@
 <body>
 <div class="band">
   <div class="inner">
-    <div class="kicker">Optima Academy Online</div>
-    <h1>Course Overviews</h1>
+    <button class="home" id="homeBtn" type="button" title="Start over — clear grade selection" aria-label="Course Overviews home — clear grade selection">
+      <img class="logo" src="optima-logo-white.png" alt="Optima Academy Online">
+      <h1>Course Overviews</h1>
+    </button>
     <p class="lead">One-page guides to our courses. Pick a grade, open any overview, or check several to download them together.</p>
   </div>
 </div>
@@ -193,7 +204,7 @@
   });
 
   var selected = {};            // file -> course (persists across grade switches)
-  var current = GRADES.filter(function (g) { return byGrade[g].length; })[0] || "K";
+  var current = null;           // null = blank landing, no grade selected
 
   var elGrades = document.getElementById("grades");
   var elList = document.getElementById("list");
@@ -229,10 +240,17 @@
   }
 
   function renderList() {
+    var selBtn = document.getElementById("selectAll");
+    elList.innerHTML = "";
+    if (current === null) {
+      elTitle.textContent = "Courses";
+      selBtn.style.display = "none";
+      elList.innerHTML = '<div class="emptystate"><span class="big">🎓</span>Select a grade level above to see its course overviews.</div>';
+      return;
+    }
     var courses = byGrade[current];
     elTitle.textContent = gradeName(current) + (courses.length ? " · " + courses.length + (courses.length === 1 ? " course" : " courses") : "");
-    document.getElementById("selectAll").style.display = courses.length > 1 ? "" : "none";
-    elList.innerHTML = "";
+    selBtn.style.display = courses.length > 1 ? "" : "none";
     if (!courses.length) {
       elList.innerHTML = '<div class="emptystate"><span class="big">📘</span>Overviews for ' + gradeName(current) + " are coming soon.</div>";
       return;
@@ -285,7 +303,14 @@
     elSelBar.classList.toggle("show", n > 0);
   }
 
+  document.getElementById("homeBtn").addEventListener("click", function () {
+    current = null;
+    renderGrades(); renderList();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
   document.getElementById("selectAll").addEventListener("click", function () {
+    if (current === null) return;
     byGrade[current].forEach(function (c) { selected[c.file] = c; });
     renderList(); updateBar();
   });
