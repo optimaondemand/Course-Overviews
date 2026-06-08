@@ -2,10 +2,11 @@
 
 A browsable directory of one-page family course overviews for Optima Academy Online (127+ courses, K–12), served from this repo via GitHub Pages.
 
-- **`index.html`** — the widget: grade-level menu → course list → View / Download selected / Open selected.
+**Live:** https://optimaondemand.github.io/Course-Overviews/
+
+- **`index.html`** — the widget: grade-level menu → course list → Open / Download selected.
 - **`manifest.js`** — the data that drives the menus. The widget reads this file; nothing is hard-coded.
-- **`pdfs/`** — the one-page overview PDFs (`lowercase-with-hyphens.pdf`).
-- **`_src/`** — template used to generate the temporary placeholder PDFs (delete once real overviews are loaded).
+- **`pdfs/`** — the one-page overview PDFs (`lowercase-with-hyphens.pdf`), currently 106 courses.
 
 ## Adding a course
 
@@ -22,7 +23,7 @@ A browsable directory of one-page family course overviews for Optima Academy Onl
 Once published with GitHub Pages enabled, embed via iframe:
 
 ```html
-<iframe src="https://optimaondemand.github.io/course-overviews/"
+<iframe src="https://optimaondemand.github.io/Course-Overviews/"
         style="width:100%; height:680px; border:1px solid #D0D9E8; border-radius:10px;"
         title="OAO Course Overviews"></iframe>
 ```
@@ -32,5 +33,3 @@ The same URL works as a standalone link for families (email, newsletter, website
 ## Notes
 
 - Each course row has an **Open ↗** button (new tab). Checking courses reveals a floating bar with **Download** — one download per PDF; the browser asks once to allow multiple downloads. There is deliberately no bulk "open in tabs" action: pop-up blockers only allow one new tab per click, so a bulk-open button can never work reliably.
-
-The current PDFs are **sample placeholders** generated from `_src/placeholder-template.html` — replace them as the family-overview project produces the real ones.
